@@ -102,11 +102,12 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+# ROS detect spot
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES beginner_tutorials
-#  CATKIN_DEPENDS roscpp rospy std_msgs
-#  DEPENDS system_lib
+  INCLUDE_DIRS include lib src
+  LIBRARIES beginner_tutorials
+  CATKIN_DEPENDS roscpp rospy std_msgs
+  DEPENDS system_lib
 )
 
 ###########
@@ -115,10 +116,14 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
+# Complier detect spot
 include_directories(
-# include
+  include
+  lib
+  src
   ${catkin_INCLUDE_DIRS}
 )
+
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -135,6 +140,11 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/beginner_tutorials_node.cpp)
 
+add_executable(hello_world_ros_node
+  include/hello_world_ros.h
+  lib/hello_world_ros.cpp
+  src/main_hello_world_ros_node.cpp
+  )
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -143,12 +153,17 @@ include_directories(
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+#add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
+#target_link_libraries(${hello_world_ros_node}
+#  ${catkin_LIBRARIES}
+#)
+
+target_link_libraries(hello_world_ros_node ${catkin_LIBRARIES})
+
+add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
+
 
 #############
 ## Install ##
